@@ -33,9 +33,9 @@ public class DatabaseLayer extends Layer {
 
 	/**
 	 * 
-	 * @param st statement for the execution of an SQL query
-	 * @param factory symbol factory object
-	 * @param tablename table name
+	 * @param st            statement for the execution of an SQL query
+	 * @param factory       symbol factory object
+	 * @param tablename     table name
 	 * @param geocolumnname column of the geometry
 	 */
 	public DatabaseLayer(Statement st, SymbolFactory factory, String tablename, String geocolumnname) {
@@ -56,7 +56,7 @@ public class DatabaseLayer extends Layer {
 		int id = 0;
 		try {
 			String query = "SELECT ST_SRID(" + geocolname + ") AS srid FROM " + tablename + " LIMIT 1;";
-			
+
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
 			id = rs.getInt("srid");
@@ -90,18 +90,18 @@ public class DatabaseLayer extends Layer {
 		double y1 = searchEnv.getyMin();
 		double y2 = searchEnv.getyMax();
 
-		System.out.println(x1 + " " + x2 + " " + y1 + " " + y2);
-		
+//		System.out.println(x1 + " " + x2 + " " + y1 + " " + y2);
+
 		String query = "SELECT *, ST_asText(" + geocolname + ") as " + geocolname + "_WKT FROM " + tablename
 				+ " AS ls, ST_SetSRID(ST_MakeBox2D(ST_Point(" + x1 + "," + y1 + "), ST_Point(" + x2 + "," + y2 + ")), "
 				+ srid + ") AS querygeo WHERE ST_INTERSECTS(" + geocolname + ", querygeo);";
 
 		try {
-			System.out.println(query);
-			long starttime = System.currentTimeMillis();
+//			System.out.println(query);
+//			long starttime = System.currentTimeMillis();
 			ResultSet rs = st.executeQuery(query);
-			long endtime = System.currentTimeMillis();
-			System.out.println("Query executed in " + (endtime - starttime) + " ms");
+//			long endtime = System.currentTimeMillis();
+//			System.out.println("Query executed in " + (endtime - starttime) + " ms");
 			while (rs.next()) {
 
 				// fetch all attributes of current row into HashMap
@@ -129,4 +129,19 @@ public class DatabaseLayer extends Layer {
 		return mySymbols;
 	}
 
+	public Statement getSt() {
+		return st;
+	}
+
+	public String getTablename() {
+		return tablename;
+	}
+
+	public String getGeocolname() {
+		return geocolname;
+	}
+
+	public int getSrid() {
+		return srid;
+	}
 }
