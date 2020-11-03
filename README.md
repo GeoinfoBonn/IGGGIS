@@ -1,3 +1,3 @@
 # IGGGIS
 
-[Project Website](TO FOLLOW)
+[Project Website](http://www.geoinfo.uni-bonn.de/igggis)
